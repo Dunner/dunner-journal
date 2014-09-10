@@ -1,0 +1,209 @@
+
+# Dunner Journal
+
+## How to use:
+
+###### include dunner-journal as dependency
+
+```js
+angular.module('myApp', [
+  // ...
+  'dunner.journal'
+]).
+config(function () {
+  // ...
+```
+
+**Drop this html where you want your journal:**
+```html
+<dnr-journal bookurl="views/books/book.html" tabwidth="08" tabHeight="15"></dnr-journal>
+```
+Point the bookurl to your book, look below for syntax
+
+**examplebook.html:**
+```html
+<div class="book">
+
+  <!-- each div below this line is a page in the book -->
+
+  <div> <!-- Inside of first bookcover-->
+    <section><h1>LEATHERBOUND BOOK</h1></section>
+  </div>
+
+  <div>  <!-- Outside of first bookcover-->
+    <section></section>
+  </div>
+
+  <div> <!-- First actual page (with tab)-->
+    <div class="tab"><text><h6>Page 1</h6></text><span></span></div>
+    <!-- Remove above line if you dont want a tab, or use it on another page that you want a tab on-->
+    <section>
+      <p>
+        text on page
+      </p>
+    </section>
+  </div>
+
+  <div>
+    <section>
+      <p>
+        text on page
+      </p>
+    </section>
+  </div>
+
+  <div> <!-- Inside of last bookcover-->
+    <section></section>
+  </div>
+
+  <div> <!-- Outside of last bookcover-->
+    <section><h1>LEATHERBOUND BOOK</h1></section>
+  </div>
+
+</div>
+```
+
+**include this css:**
+
+```css
+
+.book {
+  width:100%;
+  height:100%;
+  perspective: 70em;
+  position: relative;}
+
+  .book > * {
+  cursor: pointer;
+  cursor: hand;}
+
+  .bookpage {
+    width: 50%;
+    height: calc( 100% - 40px );
+    right: 0px; top: 20px;
+    position: absolute;
+    background: url('../images/paper.png') no-repeat center center;
+    background-size: cover;
+    transform-origin: 0 50%;
+    transition: transform 0.6s;
+    /*backface-visibility: hidden;*/
+    transform-style: preserve-3d;
+    box-shadow: inset 20px 0 30px rgba(0,0,0,.3), inset 1px 0 3px -1px rgba(0,0,0,.3), 1px 0 1px -1px rgba(0,0,0,.3);}
+  .bookpage.flipped {
+    transform: rotateY( -180deg );  }
+  .bookpage > section {
+    width: 100%; height:100%; position:relative; padding:20px;}
+  .backside {backface-visibility: visible!important;}
+  .backside > section{
+    transform: scaleX(-1);}
+
+    .bookpage.backside { box-shadow: inset 20px 0 30px rgba(0,0,0,.3), inset 1px 0 3px -1px rgba(0,0,0,.3);}
+    .bookpage.backside.flipped { box-shadow: inset 20px 0 30px rgba(0,0,0,.3), inset 1px 0 3px -1px rgba(0,0,0,.3), 1px 0 1px -1px rgba(0,0,0,.3);}
+
+  .bookpage > .tab{
+    position: absolute;
+    top: 40px; bottom: 0; right: -8%;
+    width: 8%;
+    height: 60px;
+    background: url('../images/paper.png') no-repeat center center fixed;
+    background-size: cover;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 6px 6px 8px -6px rgba(0,0,0,.6);
+    }
+  .bookpage > .tab text{
+    position: absolute;
+    transform:  translateX(-50%) translateY(-50%) rotate(90deg);
+    top: 50%;
+    left: 50%;}
+  .bookpage > .tab text h6{
+    font-weight: bold;
+    color:rgba(171, 128, 112, 1);
+    white-space:nowrap;
+    text-transform:uppercase;}
+  .bookpage.flipped > .tab{
+    transform: scaleX(-1);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 0px;
+    box-shadow: -6px 6px 8px -6px rgba(0,0,0,.6);}
+  .bookpage .tab span {
+      content: '';
+      position: absolute;
+      height: 31px;
+      width: 30px;
+      overflow:hidden;
+      left: -10px;
+      right: auto;
+      bottom: -30px; }
+  .bookpage .tab span::after {
+      content: '';
+      position: absolute;
+      margin-left: 0px;
+      margin-right: -10px;
+      margin-top: -11px;
+      height: 32px;
+      width: 30px;
+      background: transparent;
+      border: solid 10px #d2d2d2;
+      border-bottom: 0px;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 0px;
+      box-shadow: inset -6px 6px 8px -6px rgba(0,0,0,.2);}
+    .bookpage.flipped > .tab span {right:0px; left:auto;}
+    .bookpage.flipped > .tab span::after {margin-right:0px; margin-left: -10px; border-top-right-radius: 30px; border-top-left-radius: 0px;}
+
+  /*Cover*/
+
+  .bookcover {
+    width: 50%;
+    height: 100%;
+    position:absolute;
+    bottom: 0; right: 0;
+    padding: 20px;
+    background: url('../images/texture.png') no-repeat center center;
+    background-size: cover;
+    border-top-right-radius: 13px;
+    border-bottom-right-radius: 13px;
+    transform-origin: 0 50%;
+    transition: transform 0.6s;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    box-shadow: inset 20px 0 30px rgba(0,0,0,.3), inset 1px 0 5px rgba(0,0,0,.3);}
+    .bookcover.flipped {
+      transform: rotateY( -180deg );
+    }
+    .bookcover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      left:0px;
+      top:0px;
+      width: 100%;
+      height: 100%;
+      border-radius: 13px;
+      background: rgba(139,69,19,.1);}
+    .bookcover::before {
+      content: '';
+      position: absolute;
+      left:2px;
+      top:12px;
+      border: 1px dashed rgba(171, 128, 112, 0.7);
+      border-left:0px;
+      outline: 1px dashed rgba(15, 18, 12, 1);
+      width: calc( 100% - 14px );
+      height: calc( 100% - 24px );}
+
+    .bookcover section > h1 {
+      font-family: 'Exo 2', sans-serif;
+      color: rgba(0, 0, 0, .4);
+      padding-top: 50px;
+      text-align: center;
+      text-shadow: 0 1px 1px rgba(171, 128, 112, 0.2) , 0 -1px 1px rgba(5, 8, 2, 0.2);}
+```
+Find images for
+- ..images/paper.png
+- ..images/texture.png
+
+#### Todo
+- [ ] include css automatically
+- [ ] include images automatically
