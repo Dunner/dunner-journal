@@ -3,7 +3,11 @@
 
 ## How to use:
 
-###### include dunner-journal as dependency
+**Bower**
+```html
+bower install dunner-journal -S
+```
+**include dunner-journal as dependency**
 
 ```js
 angular.module('myApp', [
